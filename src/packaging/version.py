@@ -199,7 +199,7 @@ class Version(_BaseVersion):
         # Validate the version and parse it into pieces
         match = self._regex.search(version)
         if not match:
-            raise InvalidVersion(f"Invalid version: '{version}'")
+            raise InvalidVersion(f"Invalid version: {version!r}")
 
         # Store the parsed out pieces of the version
         self._version = _Version(
@@ -493,7 +493,9 @@ def _parse_letter_version(
             letter = "post"
 
         return letter, int(number)
-    if not letter and number:
+
+    assert not letter
+    if number:
         # We assume if we are given a number, but we are not given a letter
         # then this is using the implicit post release syntax (e.g. 1.0-1)
         letter = "post"
